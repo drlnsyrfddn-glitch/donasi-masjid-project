@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Donasi Masjid</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 font-sans">
+
+    <div id="login-section" class="min-h-screen flex items-center justify-center px-4">
+        <div class="max-w-md w-full bg-white p-8 rounded-2xl shadow-sm border border-gray-100 text-center">
+            <div class="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">
+                <i class="fas fa-lock"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">Login Admin</h2>
+            <p class="text-gray-500 text-sm mb-6">Silakan masukkan password untuk mengakses dashboard Infaq Masjid Al-Ikhlas.</p>
+            
+            <div class="mb-4 text-left">
+                <input type="password" id="password-input" placeholder="Masukkan Password" 
+                       class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition">
+                <p id="login-error" class="text-red-500 text-xs mt-2 hidden">Password yang Anda masukkan salah!</p>
+            </div>
+            
+            <button onclick="checkLogin()" class="w-full bg-green-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-green-700 transition duration-300 shadow-sm">
+                Masuk Dashboard
+            </button>
+        </div>
+    </div>
+
+    <div id="dashboard-section" class="hidden max-w-6xl mx-auto p-4 md:p-8">
+        <header class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+            <div>
+                <h1 class="text-2xl font-bold text-gray-800">Dashboard Infaq</h1>
+                <p class="text-gray-500 text-sm">Masjid Al-Ikhlas Morowali</p>
+            </div>
+            <div class="flex gap-3">
+                <button onclick="fetchData()" class="bg-blue-600 text-white px-5 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 transition shadow-sm">
+                    <i class="fas fa-sync-alt mr-2"></i> Refresh
+                </button>
+                <button onclick="logout()" class="bg-red-50 text-red-600 px-5 py-2 rounded-lg text-sm font-semibold hover:bg-red-100 transition shadow-sm border border-red-100">
+                    <i class="fas fa-sign-out-alt mr-2"></i> Keluar
+                </button>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-between">
+                <div>
+                    <p class="text-gray-400 text-sm font-medium mb-1">Total Dana Lunas</p>
+                    <h2 id="total-dana" class="text-3xl font-bold text-green-600">Rp 0</h2>
+                </div>
+                <div class="bg-green-50 p-4 rounded-full">
+                    <i class="fas fa-wallet text-green-500 text-2xl"></i>
+                </div>
+            </div>
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-between">
+                <div>
+                    <p class="text-gray-400 text-sm font-medium mb-1">Total Donatur Lunas</p>
+                    <h2 id="total-donatur" class="text-3xl font-bold text-gray-800">0</h2>
+                </div>
+                <div class="bg-blue-50 p-4 rounded-full">
+                    <i class="fas fa-users text-blue-500 text-2xl"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+            <div class="p-5 border-b border-gray-100 bg-white flex flex-col sm:flex-row justify-between items-center gap-4">
+                <h3 class="font-bold text-gray-800">Riwayat Transaksi</h3>
+                
+                <div class="flex space-x-2 bg-gray-50 p-1 rounded-lg border border-gray-100">
+                    <button onclick="applyFilter('Semua')" id="btn-Semua" class="filter-btn px-4 py-1.5 rounded-md text-sm font-semibold bg-white text-gray-800 shadow-sm transition-all">Semua</button>
+                    <button onclick="applyFilter('Berhasil')" id="btn-Berhasil" class="filter-btn px-4 py-1.5 rounded-md text-sm font-medium text-gray-500 hover:text-gray-700 transition-all">Lunas</button>
+                    <button onclick="applyFilter('Pending')" id="btn-Pending" class="filter-btn px-4 py-1.5 rounded-md text-sm font-medium text-gray-500 hover:text-gray-700 transition-all">Pending / Gagal</button>
+                </div>
+            </div>
+            
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-sm whitespace-nowrap">
+                    <thead class="bg-gray-50 text-gray-500 uppercase text-[11px] font-bold tracking-wider">
+                        <tr>
+                            <th class="px-6 py-4">Waktu</th>
+                            <th class="px-6 py-4">Order ID</th>
+                            <th class="px-6 py-4">Nama Donatur</th>
+                            <th class="px-6 py-4">Nominal</th>
+                            <th class="px-6 py-4">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabel-data" class="divide-y divide-gray-100">
+                        <tr>
+                            <td colspan="5" class="px-6 py-10 text-center text-gray-400 italic">
+                                <i class="fas fa-spinner fa-spin mr-2"></i> Memuat data...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- KONFIGURASI UTAMA ---
+        const URL_GAS = 'https://script.google.com/macros/s/AKfycbwEpbAmVI8SYZKLlGDNPsJp1CxYn3K8VTX_4g19VXh3qPswi94lNHITJLAckqkA_Ar4vw/exec';
+        const PASSWORD_ADMIN = 'admin123'; 
+
+        const formatRupiah = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 });
+        
+        let globalData = []; // Menyimpan semua data agar tidak perlu fetch berulang kali saat di-filter
+
+        // Login dengan Enter
+        document.getElementById("password-input").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                checkLogin();
+            }
+        });
+
+        function checkLogin() {
+            const inputPass = document.getElementById('password-input').value;
+            if (inputPass === PASSWORD_ADMIN) {
+                document.getElementById('login-section').classList.add('hidden');
+                document.getElementById('dashboard-section').classList.remove('hidden');
+                fetchData();
+            } else {
+                document.getElementById('login-error').classList.remove('hidden');
+                document.getElementById('password-input').value = ''; 
+            }
+        }
+
+        function logout() {
+            document.getElementById('dashboard-section').classList.add('hidden');
+            document.getElementById('login-section').classList.remove('hidden');
+            document.getElementById('password-input').value = '';
+            document.getElementById('login-error').classList.add('hidden');
+        }
+
+        function fetchData() {
+            const tabel = document.getElementById('tabel-data');
+            tabel.innerHTML = `<tr><td colspan="5" class="px-6 py-10 text-center text-gray-400 italic"><i class="fas fa-spinner fa-spin mr-2"></i> Memuat data...</td></tr>`;
+
+            fetch(URL_GAS + '?action=admin')
+            .then(res => res.json())
+            .then(data => {
+                // Update Statistik Atas
+                document.getElementById('total-dana').innerText = formatRupiah.format(data.total_terkumpul);
+                document.getElementById('total-donatur').innerText = data.jumlah_donatur;
+
+                // Simpan data ke variabel global dan balik urutannya (terbaru di atas)
+                globalData = data.semua_data.reverse();
+                
+                // Tampilkan data dengan filter "Semua" secara default
+                applyFilter('Semua');
+            })
+            .catch(err => {
+                console.error("Error:", err);
+                tabel.innerHTML = `<tr><td colspan="5" class="px-6 py-10 text-center text-red-500">Gagal memuat data. Periksa URL GAS.</td></tr>`;
+            });
+        }
+
+        function applyFilter(filterType) {
+            // 1. Update gaya tombol filter
+            const buttons = document.querySelectorAll('.filter-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-white', 'text-gray-800', 'shadow-sm', 'font-semibold');
+                btn.classList.add('text-gray-500', 'font-medium');
+            });
+            
+            const activeBtn = document.getElementById('btn-' + filterType);
+            activeBtn.classList.remove('text-gray-500', 'font-medium');
+            activeBtn.classList.add('bg-white', 'text-gray-800', 'shadow-sm', 'font-semibold');
+
+            // 2. Saring data berdasarkan tombol yang diklik
+            let filteredData = [];
+            if (filterType === 'Semua') {
+                filteredData = globalData;
+            } else if (filterType === 'Berhasil') {
+                filteredData = globalData.filter(item => item.status === 'Berhasil' || item.status === 'Settlement');
+            } else if (filterType === 'Pending') {
+                filteredData = globalData.filter(item => item.status !== 'Berhasil' && item.status !== 'Settlement');
+            }
+
+            // 3. Render tabel dengan data yang sudah disaring
+            renderTable(filteredData);
+        }
+
+        function renderTable(dataArray) {
+            const tabel = document.getElementById('tabel-data');
+            tabel.innerHTML = '';
+
+            if (dataArray.length === 0) {
+                tabel.innerHTML = `<tr><td colspan="5" class="px-6 py-10 text-center text-gray-400 italic">Tidak ada transaksi untuk status ini.</td></tr>`;
+                return;
+            }
+
+            dataArray.forEach(item => {
+                let statusColor = item.status === 'Berhasil' || item.status === 'Settlement' ? 'bg-green-100 text-green-700 border-green-200' : 
+                                  item.status === 'Pending' ? 'bg-yellow-100 text-yellow-700 border-yellow-200' : 
+                                  'bg-red-100 text-red-700 border-red-200';
+                
+                tabel.innerHTML += `
+                    <tr class="hover:bg-gray-50 transition-colors border-b border-gray-50">
+                        <td class="px-6 py-4 text-gray-500 text-xs">${item.waktu}</td>
+                        <td class="px-6 py-4 text-gray-400 text-xs font-mono">${item.orderId}</td>
+                        <td class="px-6 py-4 font-bold text-gray-700">${item.nama}</td>
+                        <td class="px-6 py-4 text-gray-800 font-semibold">${formatRupiah.format(item.nominal)}</td>
+                        <td class="px-6 py-4">
+                            <span class="px-3 py-1 rounded-full text-[10px] font-bold border ${statusColor}">
+                                ${item.status}
+                            </span>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+    </script>
+</body>
+</html>
