@@ -1,0 +1,3 @@
+<script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="Mid-client-iYK-R3qrzzwvN9mQ"></script>
+
+const URL_GAS = 'https://script.google.com/macros/s/AKfycbwEpbAmVI8SYZKLlGDNPsJp1CxYn3K8VTX_4g19VXh3qPswi94lNHITJLAckqkA_Ar4vw/exec';
