@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Infaq Digital - Masjid Al-Ikhlas</title>
+    <title>Infaq Digital - Masjid Al-Ikhlas Morowali</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="Mid-client-iYK-R3qrzzwvN9mQ"></script>
 
+
     <style>
-        /* Gaya Background dan Efek Glassmorphism */
         .bg-hero {
             background-image: linear-gradient(rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.8)), url('https://images.unsplash.com/photo-1564121211835-e88c852648ab?q=80&w=2070&auto=format&fit=crop');
             background-size: cover;
@@ -22,7 +22,6 @@
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
-        /* Custom Scrollbar untuk List Doa */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
@@ -36,7 +35,7 @@
             <h1 class="text-3xl md:text-5xl font-bold text-white mb-4 drop-shadow-lg leading-tight">
                 <i class="fas fa-mosque mr-2 md:mr-3 text-green-400"></i>Masjid Al-Ikhlas
             </h1>
-            <p class="text-base md:text-lg text-gray-200 drop-shadow-md px-2"> Kota Palopo, Sulawesi Selatan</p>
+            <p class="text-base md:text-lg text-gray-200 drop-shadow-md px-2">Bungku Barat, Kab. Morowali, Sulawesi Tengah</p>
             <p class="text-xs md:text-sm text-gray-300 mt-3 md:mt-2 bg-black/30 inline-block px-4 py-1.5 rounded-full backdrop-blur-sm">Program Infaq Digital Pembangunan Plafon</p>
         </div>
 
@@ -106,25 +105,20 @@
     </main>
 
     <footer class="bg-white border-t border-gray-200 py-8 text-center text-sm text-gray-500 mt-auto">
-        <p class="font-medium">&copy; 2026 Masjid Al-Ikhlas.</p>
+        <p class="font-medium">&copy; 2026 Masjid Al-Ikhlas Morowali.</p>
         <p class="text-xs mt-1"><i class="fas fa-lock text-green-500 mr-1"></i> Transaksi diamankan oleh Midtrans.</p>
     </footer>
 
     <script>
-        // ==========================================
-        // KONFIGURASI UTAMA
-        // ==========================================
         const URL_GAS = 'https://script.google.com/macros/s/AKfycbwEpbAmVI8SYZKLlGDNPsJp1CxYn3K8VTX_4g19VXh3qPswi94lNHITJLAckqkA_Ar4vw/exec';
 
         
         const formatRupiah = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 });
 
-        // Load Data saat halaman dibuka
         window.onload = function() {
             fetch(URL_GAS) 
             .then(res => res.json())
             .then(data => {
-                // 1. Update Statistik & Progress
                 document.getElementById('total-terkumpul').innerText = formatRupiah.format(data.total_terkumpul);
                 document.getElementById('target-donasi').innerText = formatRupiah.format(data.target_donasi);
                 document.getElementById('jumlah-donatur').innerText = data.jumlah_donatur;
@@ -133,7 +127,6 @@
                 if(persentase > 100) persentase = 100;
                 document.getElementById('progress-bar').style.width = persentase + '%';
 
-                // 2. Tampilkan Daftar Doa
                 const listDoa = document.getElementById('list-doa');
                 listDoa.innerHTML = '';
                 
@@ -150,16 +143,26 @@
                         let bagianTanggal = tanggalLengkap.split(' ');
                         let tanggalSimpel = bagianTanggal.length >= 2 ? `${bagianTanggal[0]} ${bagianTanggal[1]}` : tanggalLengkap;
 
+                        // -- FITUR BARU: Menampilkan nominal di samping nama --
+                        let nominalTeks = item.nominal ? formatRupiah.format(item.nominal) : '';
+
                         listDoa.innerHTML += `
                             <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 hover:border-green-200 transition">
                                 <div class="flex justify-between items-start mb-2">
-                                    <h4 class="font-bold text-gray-800 text-sm flex items-center">
-                                        <div class="w-6 h-6 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-xs mr-2"><i class="fas fa-user"></i></div>
-                                        ${item.nama}
-                                    </h4>
-                                    <span class="text-[10px] text-gray-400 font-medium bg-gray-50 px-2 py-1 rounded-md whitespace-nowrap">${tanggalSimpel}</span>
+                                    <div class="flex items-center">
+                                        <div class="w-8 h-8 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-xs mr-3 flex-shrink-0">
+                                            <i class="fas fa-user"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-gray-800 text-sm leading-tight flex items-center flex-wrap gap-1.5">
+                                                ${item.nama}
+                                                ${nominalTeks ? `<span class="text-[10px] font-bold text-green-700 bg-green-50 border border-green-200 px-1.5 py-0.5 rounded">${nominalTeks}</span>` : ''}
+                                            </h4>
+                                            <p class="text-[10px] text-gray-400 font-medium mt-0.5">${tanggalSimpel}</p>
+                                        </div>
+                                    </div>
                                 </div>
-                                <p class="text-gray-600 text-sm leading-relaxed">"${item.doa}"</p>
+                                <p class="text-gray-600 text-sm leading-relaxed mt-2 pl-11">"${item.doa}"</p>
                             </div>
                         `;
                     });
@@ -171,7 +174,6 @@
             });
         };
 
-        // Fungsi Tombol Bayar
         function bayar(event) {
             event.preventDefault(); 
             
