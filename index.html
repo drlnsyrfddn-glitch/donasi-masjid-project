@@ -3,561 +3,181 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Infaq Plafon Masjid Al-Ikhlas</title>
-    
+    <title>Infaq Digital - Masjid Al-Ikhlas Morowali</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="Mid-client-iYK-R3qrzzwvN9mQ"></script>
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <style>
-        /* Menyembunyikan scrollbar tapi tetap bisa di-scroll */
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        
-        /* Animasi transisi modal */
-        #modalDonasi { transition: opacity 0.3s ease; }
-    </style>
+    <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="MASUKKAN_CLIENT_KEY_SANDBOX_KAMU_DISINI"></script>
 </head>
-<body class="bg-gray-100 font-sans text-gray-800">
+<body class="bg-gray-50 font-sans text-gray-800">
 
-    <div class="max-w-md mx-auto bg-white min-h-screen relative shadow-2xl pb-24">
-        
-        <div class="relative">
-            <button class="absolute top-4 left-4 z-10 bg-black/30 text-white p-2 rounded-full backdrop-blur-sm focus:outline-none">
-                <i class="fas fa-arrow-left"></i>
-            </button>
-            <img src="https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?q=80&w=1000" alt="Masjid Al-Ikhlas" class="w-full h-60 object-cover">
+    <header class="bg-white shadow-sm border-b border-gray-100 py-6">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <h1 class="text-3xl font-bold text-green-700 mb-2"><i class="fas fa-mosque mr-2"></i> Masjid Al-Ikhlas</h1>
+            <p class="text-gray-500">Bungku Barat, Kab. Morowali, Sulawesi Tengah</p>
         </div>
+    </header>
 
-        <div class="p-5 bg-white">
-            <h1 class="text-xl font-bold leading-tight mb-4">Penyelesaian Pembangunan Plafon Masjid Al-Ikhlas</h1>
-            
-            <div class="mb-4">
-                <p id="total-terkumpul" class="text-blue-600 font-bold text-2xl">Rp 0</p>
-                <div class="flex justify-between text-xs text-gray-500 mb-2 mt-1">
-                    <span>Terkumpul dari <b id="target-donasi">Rp 50.000.000</b></span>
-                    <span><b>38</b> hari lagi</span>
+    <main class="max-w-4xl mx-auto px-4 py-8">
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 mb-8 text-center">
+            <h2 class="text-lg font-semibold text-gray-700 mb-4">Progress Pembangunan Plafon</h2>
+            <div class="flex justify-between items-end mb-2">
+                <div class="text-left">
+                    <p class="text-xs text-gray-400 font-medium">Terkumpul</p>
+                    <p id="total-terkumpul" class="text-2xl font-bold text-green-600">Rp 0</p>
                 </div>
-                <div class="w-full bg-gray-200 rounded-full h-1.5 overflow-hidden">
-                    <div id="progress-bar" class="bg-blue-500 h-1.5 rounded-full transition-all duration-500" style="width: 0%"></div>
+                <div class="text-right">
+                    <p class="text-xs text-gray-400 font-medium">Target</p>
+                    <p id="target-donasi" class="text-sm font-bold text-gray-500">Rp 0</p>
                 </div>
             </div>
+            <div class="w-full bg-gray-200 rounded-full h-3 mb-2">
+                <div id="progress-bar" class="bg-green-500 h-3 rounded-full transition-all duration-1000" style="width: 0%"></div>
+            </div>
+            <p class="text-sm text-gray-500"><span id="jumlah-donatur" class="font-bold text-gray-700">0</span> orang telah berdonasi</p>
+        </div>
 
-            <div class="flex justify-between border-t border-b py-3 mt-4 text-sm font-semibold text-gray-600">
-                <div class="flex flex-col items-center w-1/3 border-r text-center">
-                    <span id="jumlah-donatur" class="text-black">0</span>
-                    <span class="text-xs font-normal">Donatur</span>
-                </div>
-                <div class="flex flex-col items-center w-1/3 border-r text-gray-400 text-center">
-                    <i class="fas fa-newspaper mb-1 text-xs"></i>
-                    <span class="text-xs font-normal">Kabar Terbaru</span>
-                </div>
-                <div class="flex flex-col items-center w-1/3 text-gray-400 text-center">
-                    <i class="fas fa-hand-holding-usd mb-1 text-xs"></i>
-                    <span class="text-xs font-normal">Pencairan</span>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                <h3 class="text-xl font-bold text-gray-800 mb-4 border-b pb-2">Kirim Infaq</h3>
+                <form id="form-donasi" onsubmit="bayar(event)">
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Nominal Donasi (Rp)</label>
+                        <input type="number" id="nominal" required min="10000" placeholder="Minimal 10.000" 
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap</label>
+                        <input type="text" id="nama" required placeholder="Nama Anda (Bisa 'Hamba Allah')" 
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none">
+                    </div>
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Doa / Pesan (Opsional)</label>
+                        <textarea id="doa" rows="3" placeholder="Tuliskan doa atau harapan Anda..." 
+                                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none"></textarea>
+                    </div>
+                    <button type="submit" id="btn-bayar" class="w-full bg-green-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-green-700 transition shadow-sm flex justify-center items-center">
+                        <i class="fas fa-lock mr-2"></i> Lanjutkan Pembayaran
+                    </button>
+                </form>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col max-h-[500px]">
+                <h3 class="text-xl font-bold text-gray-800 mb-4 border-b pb-2">Doa Orang Baik</h3>
+                <div id="list-doa" class="overflow-y-auto pr-2 space-y-4">
+                    <div class="text-center py-8 text-gray-400 text-sm italic">
+                        <i class="fas fa-spinner fa-spin mb-2 text-xl"></i><br>Memuat doa...
+                    </div>
                 </div>
             </div>
         </div>
+    </main>
 
-        <div class="w-full h-2 bg-gray-100"></div>
-
-        <div class="p-5 bg-white">
-            <h2 class="font-bold text-md mb-4">Informasi Penggalangan Dana</h2>
-            <div class="flex items-center space-x-3">
-                <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center text-gray-400">
-                    <i class="fas fa-user-circle text-3xl"></i>
-                </div>
-                <div>
-                    <h3 class="font-bold text-sm">Derlan Syarifuddin <i class="fas fa-check-circle text-blue-500 ml-1"></i></h3>
-                    <p class="text-xs text-gray-500">Terverifikasi</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="w-full h-2 bg-gray-100"></div>
-
-        <div class="p-5 bg-white">
-            <h2 class="font-bold text-md mb-2">Cerita Penggalangan Dana</h2>
-            <p class="text-xs text-gray-400 mb-3">16 Apr 2026</p>
-            
-            <div id="cerita-teks" class="text-sm text-gray-700 leading-relaxed line-clamp-4 transition-all duration-300">
-                Assalamu’alaikum #OrangBaik,<br><br>
-                Saat ini pembangunan Masjid Al-Ikhlas sedang dalam tahap penyelesaian. Namun, proses pengerjaan plafon terhenti karena keterbatasan dana. Mari bersama-sama kita patungan untuk menyempurnakan rumah Allah ini agar jamaah bisa beribadah dengan lebih khusyuk dan nyaman.
-                <br><br>
-                Setiap rupiah yang disedekahkan insyaAllah akan menjadi amal jariyah yang pahalanya terus mengalir meskipun kita sudah tiada. Proses pengerjaan akan langsung dilanjutkan segera setelah dana material terkumpul.
-                <br><br>
-                Terima kasih atas doa dan dukungan para donatur sekalian. Wassalamu'alaikum warahmatullahi wabarakatuh.
-            </div>
-            
-            <button id="btn-baca" onclick="toggleCerita()" class="text-blue-500 text-sm font-semibold mt-2 focus:outline-none">
-                Baca selengkapnya
-            </button>
-        </div>
-
-        <div class="w-full h-2 bg-gray-100"></div>
-
-        <div class="p-5 bg-white">
-            <div class="flex justify-between items-center mb-4">
-                <h2 class="font-bold text-md">Doa-doa Orang Baik</h2>
-                <span id="badge-donatur" class="bg-blue-50 text-blue-600 text-xs font-bold px-2 py-1 rounded-full">0</span>
-            </div>
-
-            <div id="daftar-doa" class="space-y-4">
-                <p class="text-center text-sm text-gray-400 py-4 italic">Memuat doa-doa...</p>
-            </div>
-            
-            <button class="w-full text-center text-blue-500 text-sm font-semibold mt-6 border py-2 rounded-lg focus:outline-none">Lihat semua doa</button>
-        </div>
-
-        <div class="fixed bottom-0 w-full max-w-md bg-white border-t p-3 flex justify-between space-x-3 z-40 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
-            <button class="w-14 h-12 border border-blue-500 text-blue-500 rounded-lg flex justify-center items-center focus:outline-none">
-                <i class="fas fa-share-alt"></i>
-            </button>
-            <button onclick="bukaFormDonasi()" class="flex-1 bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 rounded-lg text-sm transition-colors focus:outline-none">
-                Donasi sekarang
-            </button>
-        </div>
-
-        <div id="modalDonasi" class="fixed inset-0 bg-black/50 z-50 hidden flex-col justify-end max-w-md mx-auto">
-            <div class="bg-white w-full rounded-t-2xl p-5 shadow-2xl">
-                <div class="flex justify-between items-center mb-4 border-b pb-3">
-                    <h3 class="font-bold text-lg">Masukkan Nominal</h3>
-                    <button onclick="tutupFormDonasi()" class="text-gray-400 text-2xl font-bold focus:outline-none">&times;</button>
-                </div>
-                
-                <div class="grid grid-cols-2 gap-3 mb-4">
-                    <button onclick="setNominal(50000)" class="border rounded-lg py-2 text-sm font-semibold hover:border-pink-500 hover:text-pink-500 focus:border-pink-500 focus:outline-none">Rp 50.000</button>
-                    <button onclick="setNominal(100000)" class="border rounded-lg py-2 text-sm font-semibold hover:border-pink-500 hover:text-pink-500 focus:border-pink-500 focus:outline-none">Rp 100.000</button>
-                </div>
-
-                <div class="relative mb-3">
-                    <span class="absolute left-3 top-3 text-gray-500 font-bold">Rp</span>
-                    <input type="number" id="nominal_custom" placeholder="Nominal Lainnya" class="w-full border-gray-300 rounded-lg p-3 pl-10 border focus:border-pink-500 outline-none transition-all">
-                </div>
-
-                <input type="text" id="nama_donatur" placeholder="Nama Lengkap / Hamba Allah" class="w-full border-gray-300 rounded-lg p-3 border mb-3 focus:border-pink-500 outline-none transition-all">
-
-                <textarea id="doa_donatur" placeholder="Tulis doa atau dukunganmu (Opsional)" rows="3" class="w-full border-gray-300 rounded-lg p-3 border mb-4 focus:border-pink-500 outline-none resize-none text-sm transition-all"></textarea>
-
-                <button id="pay-button" class="w-full bg-pink-500 hover:bg-pink-600 text-white font-bold py-4 rounded-xl shadow-lg mt-2 focus:outline-none">
-                    Lanjut Pembayaran
-                </button>
-            </div>
-        </div>
-
-    </div>
+    <footer class="bg-white border-t border-gray-200 mt-12 py-6 text-center text-sm text-gray-500">
+        <p>&copy; 2026 Masjid Al-Ikhlas Morowali. Dikelola dengan aman & transparan.</p>
+    </footer>
 
     <script>
-        const URL_GAS = 'https://script.google.com/macros/s/AKfycbwEpbAmVI8SYZKLlGDNPsJp1CxYn3K8VTX_4g19VXh3qPswi94lNHITJLAckqkA_Ar4vw/exec';
+        // ==========================================
+        // KONFIGURASI UTAMA
+        // ==========================================
+        const URL_GAS = 'MASUKKAN_URL_WEB_APP_KAMU_DISINI'; 
+        
+        const formatRupiah = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 });
 
-        // --- LOAD DATA DINAMIS SAAT HALAMAN DIBUKA ---
+        // Load Data saat halaman dibuka
         window.onload = function() {
-            fetch(URL_GAS)
+            fetch(URL_GAS) // Memanggil tanpa action=admin (khusus publik)
             .then(res => res.json())
             .then(data => {
-                if(data.status === "success") {
-                    const formatRupiah = new Intl.NumberFormat('id-ID', {
-                        style: 'currency',
-                        currency: 'IDR',
-                        minimumFractionDigits: 0
-                    });
+                // 1. Update Statistik & Progress
+                document.getElementById('total-terkumpul').innerText = formatRupiah.format(data.total_terkumpul);
+                document.getElementById('target-donasi').innerText = formatRupiah.format(data.target_donasi);
+                document.getElementById('jumlah-donatur').innerText = data.jumlah_donatur;
 
-                    // Update UI Angka
-                    document.getElementById('total-terkumpul').innerText = formatRupiah.format(data.total_terkumpul);
-                    document.getElementById('jumlah-donatur').innerText = data.jumlah_donatur;
-                    document.getElementById('badge-donatur').innerText = data.jumlah_donatur;
+                let persentase = (data.total_terkumpul / data.target_donasi) * 100;
+                if(persentase > 100) persentase = 100;
+                document.getElementById('progress-bar').style.width = persentase + '%';
 
-                    // Update Progress Bar (Target 50jt)
-                    const target = 50000000;
-                    let persentase = (data.total_terkumpul / target) * 100;
-                    document.getElementById('progress-bar').style.width = Math.min(persentase, 100) + "%";
-
-                    // Update Daftar Doa
-                    const wadahDoa = document.getElementById('daftar-doa');
-                    wadahDoa.innerHTML = ''; 
-
-                    if (data.doa && data.doa.length > 0) {
-                        data.doa.reverse().forEach(item => {
-                            // Perbaikan penanganan Invalid Date
-                            let d = new Date(item.waktu);
-                            let waktuTeks = isNaN(d) ? item.waktu : d.toLocaleDateString('id-ID', {day: 'numeric', month: 'short', year: 'numeric'});
-                            let initial = item.nama.charAt(0).toUpperCase();
-
-                            let doaHTML = `
-                            <div class="border rounded-lg p-4 bg-white shadow-sm">
-                                <div class="flex space-x-3 mb-2">
-                                    <div class="w-9 h-9 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-bold text-sm">
-                                        ${initial}
-                                    </div>
-                                    <div>
-                                        <h4 class="font-bold text-sm">${item.nama}</h4>
-                                        <p class="text-[10px] text-gray-400">${waktuTeks}</p>
-                                    </div>
+                // 2. Tampilkan Daftar Doa (Hanya yang lunas)
+                const listDoa = document.getElementById('list-doa');
+                listDoa.innerHTML = '';
+                
+                if(data.doa.length === 0) {
+                    listDoa.innerHTML = '<p class="text-center text-gray-400 text-sm py-4">Belum ada doa. Jadilah yang pertama!</p>';
+                } else {
+                    // Balik array agar doa terbaru di atas
+                    data.doa.reverse().forEach(item => {
+                        listDoa.innerHTML += `
+                            <div class="bg-green-50 p-4 rounded-xl border border-green-100">
+                                <div class="flex justify-between items-start mb-1">
+                                    <h4 class="font-bold text-gray-800 text-sm">${item.nama}</h4>
+                                    <span class="text-[10px] text-gray-400">${item.waktu.split(',')[0]}</span>
                                 </div>
-                                <p class="text-sm text-gray-700 mb-3 leading-relaxed">${item.doa}</p>
-                                <div class="flex justify-between border-t pt-2 text-gray-400 text-xs">
-                                    <button class="hover:text-red-500 transition-colors"><i class="far fa-heart mr-1"></i> Aamiin</button>
-                                    <button><i class="fas fa-share-alt mr-1"></i> Bagikan</button>
-                                </div>
+                                <p class="text-gray-600 text-sm italic">"${item.doa}"</p>
                             </div>
-                            `;
-                            wadahDoa.innerHTML += doaHTML;
-                        });
-                    } else {
-                        wadahDoa.innerHTML = '<p class="text-center text-sm text-gray-400 py-6">Belum ada doa/dukungan.</p>';
-                    }
+                        `;
+                    });
                 }
             })
-            .catch(err => console.error("Error loading data:", err));
+            .catch(err => console.error("Gagal memuat data:", err));
         };
 
-        // --- UI LOGIC ---
-        function toggleCerita() {
-            const teks = document.getElementById('cerita-teks');
-            const btn = document.getElementById('btn-baca');
-            if (teks.classList.contains('line-clamp-4')) {
-                teks.classList.remove('line-clamp-4'); 
-                btn.innerText = 'Tutup cerita'; 
-            } else {
-                teks.classList.add('line-clamp-4'); 
-                btn.innerText = 'Baca selengkapnya'; 
-            }
-        }
-
-        const modal = document.getElementById('modalDonasi');
-        function bukaFormDonasi() {
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-        }
-        function tutupFormDonasi() {
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-        }
-        function setNominal(val) {
-            document.getElementById('nominal_custom').value = val;
-        }
-
-        // --- PAYMENT LOGIC ---
-        document.getElementById('pay-button').onclick = function(){
-            const btn = this;
-            const nominal = document.getElementById('nominal_custom').value;
-            const nama = document.getElementById('nama_donatur').value || "Hamba Allah";
-            const doa = document.getElementById('doa_donatur').value || "";
-
-            if(!nominal || nominal < 10000) return alert("Minimal infaq adalah Rp 10.000");
-
+        // Fungsi Tombol Bayar
+        function bayar(event) {
+            event.preventDefault(); // Mencegah reload halaman
+            
+            const btn = document.getElementById('btn-bayar');
+            const teksAwal = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Memproses...';
             btn.disabled = true;
-            btn.innerText = "Memproses...";
 
+            const payload = {
+                nominal: document.getElementById('nominal').value,
+                nama: document.getElementById('nama').value,
+                doa: document.getElementById('doa').value
+            };
+
+            // Kirim data ke Apps Script untuk generate Token Midtrans
             fetch(URL_GAS, {
                 method: 'POST',
-                body: JSON.stringify({ nama: nama, nominal: parseInt(nominal), doa: doa }) 
+                body: JSON.stringify(payload)
             })
             .then(res => res.json())
             .then(data => {
-                tutupFormDonasi();
+                btn.innerHTML = teksAwal;
+                btn.disabled = false;
+
                 if(data.token) {
-                    snap.pay(data.token, {
-                        onSuccess: function(result){ alert("Terima kasih, donasi berhasil!"); location.reload(); },
-                        onPending: function(result){ alert("Selesaikan pembayaran Anda."); location.reload(); },
-                        onClose: function(){ btn.disabled = false; btn.innerText = "Lanjut Pembayaran"; }
+                    // Munculkan Pop-up Midtrans
+                    window.snap.pay(data.token, {
+                        onSuccess: function(result){
+                            alert("Alhamdulillah, pembayaran berhasil!");
+                            location.reload();
+                        },
+                        onPending: function(result){
+                            alert("Menunggu pembayaran Anda.");
+                            location.reload();
+                        },
+                        onError: function(result){
+                            alert("Pembayaran gagal!");
+                            btn.disabled = false;
+                        },
+                        onClose: function(){
+                            alert('Anda menutup halaman sebelum menyelesaikan pembayaran.');
+                            btn.disabled = false;
+                        }
                     });
                 } else {
-                    alert("Gagal membuat transaksi. Cek Server Key Anda.");
-                    btn.disabled = false;
-                    btn.innerText = "Lanjut Pembayaran";
+                    alert("Terjadi kesalahan sistem. Silakan coba lagi.");
                 }
             })
             .catch(err => {
-                alert("Gagal terhubung ke database.");
+                alert("Gagal terhubung ke server.");
+                btn.innerHTML = teksAwal;
                 btn.disabled = false;
-                btn.innerText = "Lanjut Pembayaran";
             });
-        };
+        }
     </script>
 </body>
-=======
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Infaq Plafon Masjid Al-Ikhlas</title>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="Mid-client-iYK-R3qrzzwvN9mQ"></script>
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <style>
-        /* Menyembunyikan scrollbar tapi tetap bisa di-scroll */
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        
-        /* Animasi transisi modal */
-        #modalDonasi { transition: opacity 0.3s ease; }
-    </style>
-</head>
-<body class="bg-gray-100 font-sans text-gray-800">
-
-    <div class="max-w-md mx-auto bg-white min-h-screen relative shadow-2xl pb-24">
-        
-        <div class="relative">
-            <button class="absolute top-4 left-4 z-10 bg-black/30 text-white p-2 rounded-full backdrop-blur-sm focus:outline-none">
-                <i class="fas fa-arrow-left"></i>
-            </button>
-            <img src="https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?q=80&w=1000" alt="Masjid Al-Ikhlas" class="w-full h-60 object-cover">
-        </div>
-
-        <div class="p-5 bg-white">
-            <h1 class="text-xl font-bold leading-tight mb-4">Penyelesaian Pembangunan Plafon Masjid Al-Ikhlas</h1>
-            
-            <div class="mb-4">
-                <p id="total-terkumpul" class="text-blue-600 font-bold text-2xl">Rp 0</p>
-                <div class="flex justify-between text-xs text-gray-500 mb-2 mt-1">
-                    <span>Terkumpul dari <b id="target-donasi">Rp 50.000.000</b></span>
-                    <span><b>38</b> hari lagi</span>
-                </div>
-                <div class="w-full bg-gray-200 rounded-full h-1.5 overflow-hidden">
-                    <div id="progress-bar" class="bg-blue-500 h-1.5 rounded-full transition-all duration-500" style="width: 0%"></div>
-                </div>
-            </div>
-
-            <div class="flex justify-between border-t border-b py-3 mt-4 text-sm font-semibold text-gray-600">
-                <div class="flex flex-col items-center w-1/3 border-r text-center">
-                    <span id="jumlah-donatur" class="text-black">0</span>
-                    <span class="text-xs font-normal">Donatur</span>
-                </div>
-                <div class="flex flex-col items-center w-1/3 border-r text-gray-400 text-center">
-                    <i class="fas fa-newspaper mb-1 text-xs"></i>
-                    <span class="text-xs font-normal">Kabar Terbaru</span>
-                </div>
-                <div class="flex flex-col items-center w-1/3 text-gray-400 text-center">
-                    <i class="fas fa-hand-holding-usd mb-1 text-xs"></i>
-                    <span class="text-xs font-normal">Pencairan</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="w-full h-2 bg-gray-100"></div>
-
-        <div class="p-5 bg-white">
-            <h2 class="font-bold text-md mb-4">Informasi Penggalangan Dana</h2>
-            <div class="flex items-center space-x-3">
-                <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center text-gray-400">
-                    <i class="fas fa-user-circle text-3xl"></i>
-                </div>
-                <div>
-                    <h3 class="font-bold text-sm">Hamba Allah <i class="fas fa-check-circle text-blue-500 ml-1"></i></h3>
-                    <p class="text-xs text-gray-500">Terverifikasi</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="w-full h-2 bg-gray-100"></div>
-
-        <div class="p-5 bg-white">
-            <h2 class="font-bold text-md mb-2">Cerita Penggalangan Dana</h2>
-            <p class="text-xs text-gray-400 mb-3">16 Apr 2026</p>
-            
-            <div id="cerita-teks" class="text-sm text-gray-700 leading-relaxed line-clamp-4 transition-all duration-300">
-                Assalamu’alaikum #OrangBaik,<br><br>
-                Saat ini pembangunan Masjid Al-Ikhlas sedang dalam tahap penyelesaian. Namun, proses pengerjaan plafon terhenti karena keterbatasan dana. Mari bersama-sama kita patungan untuk menyempurnakan rumah Allah ini agar jamaah bisa beribadah dengan lebih khusyuk dan nyaman.
-                <br><br>
-                Setiap rupiah yang disedekahkan insyaAllah akan menjadi amal jariyah yang pahalanya terus mengalir meskipun kita sudah tiada. Proses pengerjaan akan langsung dilanjutkan segera setelah dana material terkumpul.
-                <br><br>
-                Terima kasih atas doa dan dukungan para donatur sekalian. Wassalamu'alaikum warahmatullahi wabarakatuh.
-            </div>
-            
-            <button id="btn-baca" onclick="toggleCerita()" class="text-blue-500 text-sm font-semibold mt-2 focus:outline-none">
-                Baca selengkapnya
-            </button>
-        </div>
-
-        <div class="w-full h-2 bg-gray-100"></div>
-
-        <div class="p-5 bg-white">
-            <div class="flex justify-between items-center mb-4">
-                <h2 class="font-bold text-md">Doa-doa Orang Baik</h2>
-                <span id="badge-donatur" class="bg-blue-50 text-blue-600 text-xs font-bold px-2 py-1 rounded-full">0</span>
-            </div>
-
-            <div id="daftar-doa" class="space-y-4">
-                <p class="text-center text-sm text-gray-400 py-4 italic">Memuat doa-doa...</p>
-            </div>
-            
-            <button class="w-full text-center text-blue-500 text-sm font-semibold mt-6 border py-2 rounded-lg focus:outline-none">Lihat semua doa</button>
-        </div>
-
-        <div class="fixed bottom-0 w-full max-w-md bg-white border-t p-3 flex justify-between space-x-3 z-40 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
-            <button class="w-14 h-12 border border-blue-500 text-blue-500 rounded-lg flex justify-center items-center focus:outline-none">
-                <i class="fas fa-share-alt"></i>
-            </button>
-            <button onclick="bukaFormDonasi()" class="flex-1 bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 rounded-lg text-sm transition-colors focus:outline-none">
-                Donasi sekarang
-            </button>
-        </div>
-
-        <div id="modalDonasi" class="fixed inset-0 bg-black/50 z-50 hidden flex-col justify-end max-w-md mx-auto">
-            <div class="bg-white w-full rounded-t-2xl p-5 shadow-2xl">
-                <div class="flex justify-between items-center mb-4 border-b pb-3">
-                    <h3 class="font-bold text-lg">Masukkan Nominal</h3>
-                    <button onclick="tutupFormDonasi()" class="text-gray-400 text-2xl font-bold focus:outline-none">&times;</button>
-                </div>
-                
-                <div class="grid grid-cols-2 gap-3 mb-4">
-                    <button onclick="setNominal(50000)" class="border rounded-lg py-2 text-sm font-semibold hover:border-pink-500 hover:text-pink-500 focus:border-pink-500 focus:outline-none">Rp 50.000</button>
-                    <button onclick="setNominal(100000)" class="border rounded-lg py-2 text-sm font-semibold hover:border-pink-500 hover:text-pink-500 focus:border-pink-500 focus:outline-none">Rp 100.000</button>
-                </div>
-
-                <div class="relative mb-3">
-                    <span class="absolute left-3 top-3 text-gray-500 font-bold">Rp</span>
-                    <input type="number" id="nominal_custom" placeholder="Nominal Lainnya" class="w-full border-gray-300 rounded-lg p-3 pl-10 border focus:border-pink-500 outline-none transition-all">
-                </div>
-
-                <input type="text" id="nama_donatur" placeholder="Nama Lengkap / Hamba Allah" class="w-full border-gray-300 rounded-lg p-3 border mb-3 focus:border-pink-500 outline-none transition-all">
-
-                <textarea id="doa_donatur" placeholder="Tulis doa atau dukunganmu (Opsional)" rows="3" class="w-full border-gray-300 rounded-lg p-3 border mb-4 focus:border-pink-500 outline-none resize-none text-sm transition-all"></textarea>
-
-                <button id="pay-button" class="w-full bg-pink-500 hover:bg-pink-600 text-white font-bold py-4 rounded-xl shadow-lg mt-2 focus:outline-none">
-                    Lanjut Pembayaran
-                </button>
-            </div>
-        </div>
-
-    </div>
-
-    <script>
-        const URL_GAS = 'https://script.google.com/macros/s/AKfycbwEpbAmVI8SYZKLlGDNPsJp1CxYn3K8VTX_4g19VXh3qPswi94lNHITJLAckqkA_Ar4vw/exec';
-
-        // --- LOAD DATA DINAMIS SAAT HALAMAN DIBUKA ---
-        window.onload = function() {
-            fetch(URL_GAS)
-            .then(res => res.json())
-            .then(data => {
-                if(data.status === "success") {
-                    const formatRupiah = new Intl.NumberFormat('id-ID', {
-                        style: 'currency',
-                        currency: 'IDR',
-                        minimumFractionDigits: 0
-                    });
-
-                    // Update UI Angka
-                    document.getElementById('total-terkumpul').innerText = formatRupiah.format(data.total_terkumpul);
-                    document.getElementById('jumlah-donatur').innerText = data.jumlah_donatur;
-                    document.getElementById('badge-donatur').innerText = data.jumlah_donatur;
-
-                    // Update Progress Bar (Target 50jt)
-                    const target = 50000000;
-                    let persentase = (data.total_terkumpul / target) * 100;
-                    document.getElementById('progress-bar').style.width = Math.min(persentase, 100) + "%";
-
-                    // Update Daftar Doa
-                    const wadahDoa = document.getElementById('daftar-doa');
-                    wadahDoa.innerHTML = ''; 
-
-                    if (data.doa && data.doa.length > 0) {
-                        data.doa.reverse().forEach(item => {
-                            // Perbaikan penanganan Invalid Date
-                            let d = new Date(item.waktu);
-                            let waktuTeks = isNaN(d) ? item.waktu : d.toLocaleDateString('id-ID', {day: 'numeric', month: 'short', year: 'numeric'});
-                            let initial = item.nama.charAt(0).toUpperCase();
-
-                            let doaHTML = `
-                            <div class="border rounded-lg p-4 bg-white shadow-sm">
-                                <div class="flex space-x-3 mb-2">
-                                    <div class="w-9 h-9 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-bold text-sm">
-                                        ${initial}
-                                    </div>
-                                    <div>
-                                        <h4 class="font-bold text-sm">${item.nama}</h4>
-                                        <p class="text-[10px] text-gray-400">${waktuTeks}</p>
-                                    </div>
-                                </div>
-                                <p class="text-sm text-gray-700 mb-3 leading-relaxed">${item.doa}</p>
-                                <div class="flex justify-between border-t pt-2 text-gray-400 text-xs">
-                                    <button class="hover:text-red-500 transition-colors"><i class="far fa-heart mr-1"></i> Aamiin</button>
-                                    <button><i class="fas fa-share-alt mr-1"></i> Bagikan</button>
-                                </div>
-                            </div>
-                            `;
-                            wadahDoa.innerHTML += doaHTML;
-                        });
-                    } else {
-                        wadahDoa.innerHTML = '<p class="text-center text-sm text-gray-400 py-6">Belum ada doa/dukungan.</p>';
-                    }
-                }
-            })
-            .catch(err => console.error("Error loading data:", err));
-        };
-
-        // --- UI LOGIC ---
-        function toggleCerita() {
-            const teks = document.getElementById('cerita-teks');
-            const btn = document.getElementById('btn-baca');
-            if (teks.classList.contains('line-clamp-4')) {
-                teks.classList.remove('line-clamp-4'); 
-                btn.innerText = 'Tutup cerita'; 
-            } else {
-                teks.classList.add('line-clamp-4'); 
-                btn.innerText = 'Baca selengkapnya'; 
-            }
-        }
-
-        const modal = document.getElementById('modalDonasi');
-        function bukaFormDonasi() {
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-        }
-        function tutupFormDonasi() {
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-        }
-        function setNominal(val) {
-            document.getElementById('nominal_custom').value = val;
-        }
-
-        // --- PAYMENT LOGIC ---
-        document.getElementById('pay-button').onclick = function(){
-            const btn = this;
-            const nominal = document.getElementById('nominal_custom').value;
-            const nama = document.getElementById('nama_donatur').value || "Hamba Allah";
-            const doa = document.getElementById('doa_donatur').value || "";
-
-            if(!nominal || nominal < 10000) return alert("Minimal infaq adalah Rp 10.000");
-
-            btn.disabled = true;
-            btn.innerText = "Memproses...";
-
-            fetch(URL_GAS, {
-                method: 'POST',
-                body: JSON.stringify({ nama: nama, nominal: parseInt(nominal), doa: doa }) 
-            })
-            .then(res => res.json())
-            .then(data => {
-                tutupFormDonasi();
-                if(data.token) {
-                    snap.pay(data.token, {
-                        onSuccess: function(result){ alert("Terima kasih, donasi berhasil!"); location.reload(); },
-                        onPending: function(result){ alert("Selesaikan pembayaran Anda."); location.reload(); },
-                        onClose: function(){ btn.disabled = false; btn.innerText = "Lanjut Pembayaran"; }
-                    });
-                } else {
-                    alert("Gagal membuat transaksi. Cek Server Key Anda.");
-                    btn.disabled = false;
-                    btn.innerText = "Lanjut Pembayaran";
-                }
-            })
-            .catch(err => {
-                alert("Gagal terhubung ke database.");
-                btn.disabled = false;
-                btn.innerText = "Lanjut Pembayaran";
-            });
-        };
-    </script>
-</body>
->>>>>>> db9592081d3443ed0db4d1b56ee08e65add17d02
 </html>
