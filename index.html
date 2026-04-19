@@ -31,34 +31,34 @@
 </head>
 <body class="bg-gray-100 font-sans text-gray-800 antialiased">
 
-    <div class="bg-hero min-h-[450px] flex flex-col items-center justify-center px-4 pt-16 pb-24 relative">
+    <div class="bg-hero min-h-[450px] flex flex-col items-center justify-center px-4 pt-16 pb-32 relative">
         <div class="text-center mb-8 w-full max-w-4xl">
-            <h1 class="text-4xl md:text-5xl font-bold text-white mb-4 drop-shadow-lg">
-                <i class="fas fa-mosque mr-3 text-green-400"></i>Masjid Al-Ikhlas
+            <h1 class="text-3xl md:text-5xl font-bold text-white mb-4 drop-shadow-lg leading-tight">
+                <i class="fas fa-mosque mr-2 md:mr-3 text-green-400"></i>Masjid Al-Ikhlas
             </h1>
-            <p class="text-lg text-gray-200 drop-shadow-md">Kota. Palopo, Sulawesi Selatan</p>
-            <p class="text-sm text-gray-300 mt-2 bg-black/30 inline-block px-4 py-1.5 rounded-full backdrop-blur-sm">Program Infaq Digital Pembangunan Plafon</p>
+            <p class="text-base md:text-lg text-gray-200 drop-shadow-md px-2"> Kota Palopo, Sulawesi Selatan</p>
+            <p class="text-xs md:text-sm text-gray-300 mt-3 md:mt-2 bg-black/30 inline-block px-4 py-1.5 rounded-full backdrop-blur-sm">Program Infaq Digital Pembangunan Plafon</p>
         </div>
 
-        <div class="glass-card w-full max-w-4xl p-6 md:p-8 rounded-2xl shadow-2xl absolute -bottom-16 left-1/2 transform -translate-x-1/2 z-10">
-            <div class="flex flex-col md:flex-row justify-between items-end mb-3 gap-4">
+        <div class="glass-card w-[calc(100%-2rem)] md:w-full max-w-4xl p-5 md:p-8 rounded-2xl shadow-2xl absolute -bottom-24 md:-bottom-16 left-1/2 transform -translate-x-1/2 z-10">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-4 gap-2 md:gap-4">
                 <div>
-                    <p class="text-sm text-gray-500 font-semibold mb-1">Total Terkumpul</p>
-                    <p id="total-terkumpul" class="text-3xl font-bold text-green-600">Rp 0</p>
+                    <p class="text-xs md:text-sm text-gray-500 font-semibold mb-1">Total Terkumpul</p>
+                    <p id="total-terkumpul" class="text-2xl md:text-3xl font-bold text-green-600">Rp 0</p>
                 </div>
-                <div class="text-left md:text-right">
-                    <p class="text-sm text-gray-500 font-semibold mb-1">Target Pembangunan</p>
-                    <p id="target-donasi" class="text-lg font-bold text-gray-700">Rp 0</p>
+                <div class="text-left md:text-right mt-1 md:mt-0">
+                    <p class="text-xs md:text-sm text-gray-500 font-semibold mb-1">Target Pembangunan</p>
+                    <p id="target-donasi" class="text-base md:text-lg font-bold text-gray-700">Rp 0</p>
                 </div>
             </div>
-            <div class="w-full bg-gray-200 rounded-full h-4 mb-3 shadow-inner overflow-hidden">
-                <div id="progress-bar" class="bg-gradient-to-r from-green-400 to-green-600 h-4 rounded-full transition-all duration-1000 ease-out" style="width: 0%"></div>
+            <div class="w-full bg-gray-200 rounded-full h-3 md:h-4 mb-3 shadow-inner overflow-hidden">
+                <div id="progress-bar" class="bg-gradient-to-r from-green-400 to-green-600 h-full rounded-full transition-all duration-1000 ease-out" style="width: 0%"></div>
             </div>
-            <p class="text-sm text-gray-500 text-center md:text-left"><i class="fas fa-heart text-red-500 mr-1"></i> <span id="jumlah-donatur" class="font-bold text-gray-800">0</span> orang baik telah berdonasi</p>
+            <p class="text-xs md:text-sm text-gray-500 text-left"><i class="fas fa-heart text-red-500 mr-1"></i> <span id="jumlah-donatur" class="font-bold text-gray-800">0</span> orang baik telah berdonasi</p>
         </div>
     </div>
 
-    <main class="max-w-4xl mx-auto px-4 pt-28 pb-16">
+    <main class="max-w-4xl mx-auto px-4 pt-32 pb-16">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             
             <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl">
@@ -114,7 +114,8 @@
         // ==========================================
         // KONFIGURASI UTAMA
         // ==========================================
-        const URL_GAS = 'https://script.google.com/macros/s/AKfycbwEpbAmVI8SYZKLlGDNPsJp1CxYn3K8VTX_4g19VXh3qPswi94lNHITJLAckqkA_Ar4vw/exec'; 
+        const URL_GAS = 'https://script.google.com/macros/s/AKfycbwEpbAmVI8SYZKLlGDNPsJp1CxYn3K8VTX_4g19VXh3qPswi94lNHITJLAckqkA_Ar4vw/exec';
+
         
         const formatRupiah = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 });
 
@@ -145,8 +146,6 @@
                     `;
                 } else {
                     data.doa.reverse().forEach(item => {
-                        // LOGIKA SIMPLIFIKASI TANGGAL
-                        // Memecah "19 Apr 2026, 18:39" -> ["19", "Apr", "2026"] dan mengambil "19 Apr"
                         let tanggalLengkap = item.waktu.split(',')[0].trim();
                         let bagianTanggal = tanggalLengkap.split(' ');
                         let tanggalSimpel = bagianTanggal.length >= 2 ? `${bagianTanggal[0]} ${bagianTanggal[1]}` : tanggalLengkap;
@@ -158,7 +157,7 @@
                                         <div class="w-6 h-6 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-xs mr-2"><i class="fas fa-user"></i></div>
                                         ${item.nama}
                                     </h4>
-                                    <span class="text-[10px] text-gray-400 font-medium bg-gray-50 px-2 py-1 rounded-md">${tanggalSimpel}</span>
+                                    <span class="text-[10px] text-gray-400 font-medium bg-gray-50 px-2 py-1 rounded-md whitespace-nowrap">${tanggalSimpel}</span>
                                 </div>
                                 <p class="text-gray-600 text-sm leading-relaxed">"${item.doa}"</p>
                             </div>
