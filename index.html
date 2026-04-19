@@ -7,87 +7,120 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="MASUKKAN_CLIENT_KEY_SANDBOX_KAMU_DISINI"></script>
+    <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="Mid-client-iYK-R3qrzzwvN9mQ"></script>
+
+    <style>
+        /* Gaya Background dan Efek Glassmorphism */
+        .bg-hero {
+            background-image: linear-gradient(rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.8)), url('https://images.unsplash.com/photo-1564121211835-e88c852648ab?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        /* Custom Scrollbar untuk List Doa */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
 </head>
-<body class="bg-gray-50 font-sans text-gray-800">
+<body class="bg-gray-100 font-sans text-gray-800 antialiased">
 
-    <header class="bg-white shadow-sm border-b border-gray-100 py-6">
-        <div class="max-w-4xl mx-auto px-4 text-center">
-            <h1 class="text-3xl font-bold text-green-700 mb-2"><i class="fas fa-mosque mr-2"></i> Masjid Al-Ikhlas</h1>
-            <p class="text-gray-500">Bungku Barat, Kab. Morowali, Sulawesi Tengah</p>
-        </div>
-    </header>
-
-    <main class="max-w-4xl mx-auto px-4 py-8">
-        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 mb-8 text-center">
-            <h2 class="text-lg font-semibold text-gray-700 mb-4">Progress Pembangunan Plafon</h2>
-            <div class="flex justify-between items-end mb-2">
-                <div class="text-left">
-                    <p class="text-xs text-gray-400 font-medium">Terkumpul</p>
-                    <p id="total-terkumpul" class="text-2xl font-bold text-green-600">Rp 0</p>
-                </div>
-                <div class="text-right">
-                    <p class="text-xs text-gray-400 font-medium">Target</p>
-                    <p id="target-donasi" class="text-sm font-bold text-gray-500">Rp 0</p>
-                </div>
-            </div>
-            <div class="w-full bg-gray-200 rounded-full h-3 mb-2">
-                <div id="progress-bar" class="bg-green-500 h-3 rounded-full transition-all duration-1000" style="width: 0%"></div>
-            </div>
-            <p class="text-sm text-gray-500"><span id="jumlah-donatur" class="font-bold text-gray-700">0</span> orang telah berdonasi</p>
+    <div class="bg-hero min-h-[450px] flex flex-col items-center justify-center px-4 pt-16 pb-24 relative">
+        <div class="text-center mb-8 w-full max-w-4xl">
+            <h1 class="text-4xl md:text-5xl font-bold text-white mb-4 drop-shadow-lg">
+                <i class="fas fa-mosque mr-3 text-green-400"></i>Masjid Al-Ikhlas
+            </h1>
+            <p class="text-lg text-gray-200 drop-shadow-md">Bungku Barat, Kab. Morowali, Sulawesi Tengah</p>
+            <p class="text-sm text-gray-300 mt-2 bg-black/30 inline-block px-4 py-1.5 rounded-full backdrop-blur-sm">Program Infaq Digital Pembangunan Plafon</p>
         </div>
 
+        <div class="glass-card w-full max-w-4xl p-6 md:p-8 rounded-2xl shadow-2xl absolute -bottom-16 left-1/2 transform -translate-x-1/2 z-10">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-3 gap-4">
+                <div>
+                    <p class="text-sm text-gray-500 font-semibold mb-1">Total Terkumpul</p>
+                    <p id="total-terkumpul" class="text-3xl font-bold text-green-600">Rp 0</p>
+                </div>
+                <div class="text-left md:text-right">
+                    <p class="text-sm text-gray-500 font-semibold mb-1">Target Pembangunan</p>
+                    <p id="target-donasi" class="text-lg font-bold text-gray-700">Rp 0</p>
+                </div>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-4 mb-3 shadow-inner overflow-hidden">
+                <div id="progress-bar" class="bg-gradient-to-r from-green-400 to-green-600 h-4 rounded-full transition-all duration-1000 ease-out" style="width: 0%"></div>
+            </div>
+            <p class="text-sm text-gray-500 text-center md:text-left"><i class="fas fa-heart text-red-500 mr-1"></i> <span id="jumlah-donatur" class="font-bold text-gray-800">0</span> orang baik telah berdonasi</p>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 pt-28 pb-16">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                <h3 class="text-xl font-bold text-gray-800 mb-4 border-b pb-2">Kirim Infaq</h3>
+            
+            <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl">
+                <h3 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
+                    <i class="fas fa-hand-holding-heart text-green-500 mr-3 text-2xl"></i> Form Infaq
+                </h3>
                 <form id="form-donasi" onsubmit="bayar(event)">
-                    <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Nominal Donasi (Rp)</label>
-                        <input type="number" id="nominal" required min="10000" placeholder="Minimal 10.000" 
-                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none">
+                    <div class="mb-5">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Nominal Infaq (Rp)</label>
+                        <div class="relative">
+                            <span class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 font-bold">Rp</span>
+                            <input type="number" id="nominal" required min="10000" placeholder="10.000" 
+                                   class="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition shadow-inner font-semibold text-gray-700">
+                        </div>
                     </div>
-                    <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap</label>
-                        <input type="text" id="nama" required placeholder="Nama Anda (Bisa 'Hamba Allah')" 
-                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none">
+                    <div class="mb-5">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Nama Lengkap</label>
+                        <input type="text" id="nama" required placeholder="Contoh: Hamba Allah" 
+                               class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition shadow-inner text-gray-700">
                     </div>
                     <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Doa / Pesan (Opsional)</label>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Doa / Pesan (Opsional)</label>
                         <textarea id="doa" rows="3" placeholder="Tuliskan doa atau harapan Anda..." 
-                                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none"></textarea>
+                                  class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition shadow-inner text-gray-700 resize-none"></textarea>
                     </div>
-                    <button type="submit" id="btn-bayar" class="w-full bg-green-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-green-700 transition shadow-sm flex justify-center items-center">
-                        <i class="fas fa-lock mr-2"></i> Lanjutkan Pembayaran
+                    <button type="submit" id="btn-bayar" class="w-full bg-gradient-to-r from-green-500 to-green-600 text-white font-bold py-3.5 px-4 rounded-xl hover:from-green-600 hover:to-green-700 transition shadow-lg flex justify-center items-center transform hover:-translate-y-0.5">
+                        <i class="fas fa-shield-alt mr-2"></i> Lanjutkan Pembayaran
                     </button>
                 </form>
             </div>
 
-            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col max-h-[500px]">
-                <h3 class="text-xl font-bold text-gray-800 mb-4 border-b pb-2">Doa Orang Baik</h3>
-                <div id="list-doa" class="overflow-y-auto pr-2 space-y-4">
-                    <div class="text-center py-8 text-gray-400 text-sm italic">
-                        <i class="fas fa-spinner fa-spin mb-2 text-xl"></i><br>Memuat doa...
+            <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl flex flex-col h-[550px]">
+                <h3 class="text-xl font-bold text-gray-800 mb-6 flex items-center border-b border-gray-100 pb-4">
+                    <i class="fas fa-comment-dots text-blue-500 mr-3 text-2xl"></i> Doa Orang Baik
+                </h3>
+                <div id="list-doa" class="overflow-y-auto pr-3 space-y-4 flex-grow">
+                    <div class="h-full flex flex-col items-center justify-center text-gray-400">
+                        <i class="fas fa-circle-notch fa-spin text-3xl mb-3 text-green-500"></i>
+                        <p class="text-sm font-medium">Memuat doa-doa...</p>
                     </div>
                 </div>
             </div>
+
         </div>
     </main>
 
-    <footer class="bg-white border-t border-gray-200 mt-12 py-6 text-center text-sm text-gray-500">
-        <p>&copy; 2026 Masjid Al-Ikhlas Morowali. Dikelola dengan aman & transparan.</p>
+    <footer class="bg-white border-t border-gray-200 py-8 text-center text-sm text-gray-500 mt-auto">
+        <p class="font-medium">&copy; 2026 Masjid Al-Ikhlas Morowali.</p>
+        <p class="text-xs mt-1"><i class="fas fa-lock text-green-500 mr-1"></i> Transaksi diamankan oleh Midtrans.</p>
     </footer>
 
     <script>
         // ==========================================
         // KONFIGURASI UTAMA
         // ==========================================
-        const URL_GAS = 'MASUKKAN_URL_WEB_APP_KAMU_DISINI'; 
+        const URL_GAS = 'https://script.google.com/macros/s/AKfycbwEpbAmVI8SYZKLlGDNPsJp1CxYn3K8VTX_4g19VXh3qPswi94lNHITJLAckqkA_Ar4vw/exec'; 
         
         const formatRupiah = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 });
 
         // Load Data saat halaman dibuka
         window.onload = function() {
-            fetch(URL_GAS) // Memanggil tanpa action=admin (khusus publik)
+            fetch(URL_GAS) 
             .then(res => res.json())
             .then(data => {
                 // 1. Update Statistik & Progress
@@ -99,38 +132,55 @@
                 if(persentase > 100) persentase = 100;
                 document.getElementById('progress-bar').style.width = persentase + '%';
 
-                // 2. Tampilkan Daftar Doa (Hanya yang lunas)
+                // 2. Tampilkan Daftar Doa
                 const listDoa = document.getElementById('list-doa');
                 listDoa.innerHTML = '';
                 
                 if(data.doa.length === 0) {
-                    listDoa.innerHTML = '<p class="text-center text-gray-400 text-sm py-4">Belum ada doa. Jadilah yang pertama!</p>';
+                    listDoa.innerHTML = `
+                        <div class="h-full flex flex-col items-center justify-center text-gray-400 text-center">
+                            <i class="fas fa-scroll text-4xl mb-3 text-gray-300"></i>
+                            <p class="text-sm">Belum ada doa tertulis.<br>Jadilah yang pertama!</p>
+                        </div>
+                    `;
                 } else {
-                    // Balik array agar doa terbaru di atas
                     data.doa.reverse().forEach(item => {
+                        // LOGIKA SIMPLIFIKASI TANGGAL
+                        // Memecah "19 Apr 2026, 18:39" -> ["19", "Apr", "2026"] dan mengambil "19 Apr"
+                        let tanggalLengkap = item.waktu.split(',')[0].trim();
+                        let bagianTanggal = tanggalLengkap.split(' ');
+                        let tanggalSimpel = bagianTanggal.length >= 2 ? `${bagianTanggal[0]} ${bagianTanggal[1]}` : tanggalLengkap;
+
                         listDoa.innerHTML += `
-                            <div class="bg-green-50 p-4 rounded-xl border border-green-100">
-                                <div class="flex justify-between items-start mb-1">
-                                    <h4 class="font-bold text-gray-800 text-sm">${item.nama}</h4>
-                                    <span class="text-[10px] text-gray-400">${item.waktu.split(',')[0]}</span>
+                            <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 hover:border-green-200 transition">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h4 class="font-bold text-gray-800 text-sm flex items-center">
+                                        <div class="w-6 h-6 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-xs mr-2"><i class="fas fa-user"></i></div>
+                                        ${item.nama}
+                                    </h4>
+                                    <span class="text-[10px] text-gray-400 font-medium bg-gray-50 px-2 py-1 rounded-md">${tanggalSimpel}</span>
                                 </div>
-                                <p class="text-gray-600 text-sm italic">"${item.doa}"</p>
+                                <p class="text-gray-600 text-sm leading-relaxed">"${item.doa}"</p>
                             </div>
                         `;
                     });
                 }
             })
-            .catch(err => console.error("Gagal memuat data:", err));
+            .catch(err => {
+                console.error("Gagal memuat data:", err);
+                document.getElementById('list-doa').innerHTML = '<p class="text-center text-red-500 text-sm mt-10">Gagal memuat data. Periksa koneksi internet.</p>';
+            });
         };
 
         // Fungsi Tombol Bayar
         function bayar(event) {
-            event.preventDefault(); // Mencegah reload halaman
+            event.preventDefault(); 
             
             const btn = document.getElementById('btn-bayar');
             const teksAwal = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Memproses...';
+            btn.innerHTML = '<i class="fas fa-circle-notch fa-spin mr-2"></i> Memproses...';
             btn.disabled = true;
+            btn.classList.add('opacity-75', 'cursor-not-allowed');
 
             const payload = {
                 nominal: document.getElementById('nominal').value,
@@ -138,7 +188,6 @@
                 doa: document.getElementById('doa').value
             };
 
-            // Kirim data ke Apps Script untuk generate Token Midtrans
             fetch(URL_GAS, {
                 method: 'POST',
                 body: JSON.stringify(payload)
@@ -147,9 +196,9 @@
             .then(data => {
                 btn.innerHTML = teksAwal;
                 btn.disabled = false;
+                btn.classList.remove('opacity-75', 'cursor-not-allowed');
 
                 if(data.token) {
-                    // Munculkan Pop-up Midtrans
                     window.snap.pay(data.token, {
                         onSuccess: function(result){
                             alert("Alhamdulillah, pembayaran berhasil!");
@@ -176,6 +225,7 @@
                 alert("Gagal terhubung ke server.");
                 btn.innerHTML = teksAwal;
                 btn.disabled = false;
+                btn.classList.remove('opacity-75', 'cursor-not-allowed');
             });
         }
     </script>
